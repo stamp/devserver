@@ -28,6 +28,7 @@ RUN php -r "readfile('https://getcomposer.org/installer');" | php && \
    chmod +x /usr/bin/composer
 
 WORKDIR /var/www
+CMD ["nginx", "-g", "daemon off;"]
 # CMD php ./artisan serve --port=80 --host=0.0.0.0
 
 EXPOSE 80
