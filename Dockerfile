@@ -27,6 +27,8 @@ RUN php -r "readfile('https://getcomposer.org/installer');" | php && \
    mv composer.phar /usr/bin/composer && \
    chmod +x /usr/bin/composer
 
+COPY nginx.conf /etc/nginx/nginx.conf
+
 WORKDIR /var/www
 CMD ["nginx", "-g", "daemon off;"]
 # CMD php ./artisan serve --port=80 --host=0.0.0.0
