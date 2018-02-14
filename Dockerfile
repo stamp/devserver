@@ -17,20 +17,24 @@ php7.0-mbstring \
 php7.0-mysql \
 php7.0-xml \
 php7.0-zip \
-php7.0-xdebug
+php7.0-xdebug \
+supervisor \
+nginx
 
 # Download trusted certs 
 RUN mkdir -p /etc/ssl/certs && update-ca-certificates
+RUN mkdir -p /var/log/supervisord/apps
+RUN mkdir -p /run/php && touch /run/php/php7.0-fpm.sock && touch /run/php/php7.0-fpm.pid
 
 # Install composer
 RUN php -r "readfile('https://getcomposer.org/installer');" | php && \
    mv composer.phar /usr/bin/composer && \
    chmod +x /usr/bin/composer
 
+COPY supervisord.conf /etc/supervisor/conf.d/supervisord.conf
 COPY nginx.conf /etc/nginx/nginx.conf
 
 WORKDIR /var/www
-CMD ["php", "artisan", "serve", "--port=80", "--host=0.0.0.0"]
-# CMD php ./artisan serve --port=80 --host=0.0.0.0
+CMD ["/usr/bin/supervisord"]
 
 EXPOSE 80
