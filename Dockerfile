@@ -30,7 +30,7 @@ RUN php -r "readfile('https://getcomposer.org/installer');" | php && \
 COPY nginx.conf /etc/nginx/nginx.conf
 
 WORKDIR /var/www
-CMD ["nginx", "-g", "daemon off;"]
+CMD ["php", "artisan", "serve", "--port=80", "--host=0.0.0.0"]
 # CMD php ./artisan serve --port=80 --host=0.0.0.0
 
 EXPOSE 80
